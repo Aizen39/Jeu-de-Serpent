@@ -32,6 +32,10 @@ window.onload = function(){
       }
       else
       {
+        if(snakee.isEatingApple(applee)) 
+        {
+            applee.setNewPosition();//a mangé la pomme
+        }
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         snakee.draw();
         applee.draw();
@@ -135,7 +139,7 @@ window.onload = function(){
         return wallCollision || snakeCollision;
         };
 
-        this.isEatingApple(appletoEat) //a-t-il mangé la pomme?
+        this.isEatingApple = function(appletoEat) //a-t-il mangé la pomme?
         {
             var head = this.body[0];
             if(head[0] === appletoEat.position[0] && head[1] === appletoEat.position[1])
@@ -159,14 +163,18 @@ window.onload = function(){
           ctx.fillStyle = "#33cc33";
           ctx.beginPath();
           var rayon = blockSize/2;
-          var x = position[0]*blockSize + rayon;
-          var y = position[1]*blockSize + rayon;
+          var x = this.position[0]*blockSize + rayon;
+          var y = this.position[1]*blockSize + rayon;
           ctx.arc(x,y,rayon,0,Math.PI*2,true);
           ctx.fill();
           ctx.restore();
         };
-            var newX = math.random
-        }
+        this.setNewPosition = function()
+        {
+            var newX = Math.round(Math.random() * (widthInBlock - 1));
+            var newY = Math.round(Math.random() * (heightInBlocks - 1)); 
+            this.position = [newX , newY];
+        };
     }
     document.onkeydown = function handleKeyDown(e)
     {
