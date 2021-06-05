@@ -165,6 +165,8 @@ window.onload = function(){
           ctx.fill();
           ctx.restore();
         };
+            var newX = math.random
+        }
     }
     document.onkeydown = function handleKeyDown(e)
     {
