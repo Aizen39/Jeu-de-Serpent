@@ -28,20 +28,35 @@ window.onload = function(){
       snakee.advance();
       if(snakee.checkCollision())
       {
-          //gameover
+          gameOver();//gameover
       }
       else
       {
         if(snakee.isEatingApple(applee)) 
         {
-            applee.setNewPosition();//a mangé la pomme
+            snakee.ateApple = true;
+            do
+            {
+                applee.setNewPosition();//a mangé la pomme
+            }
+            while(applee.isOnSnake(snakee))
+            
         }
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         snakee.draw();
         applee.draw();
         setTimeout(refreshCanvas, delay);
       }
+      
      
+    }
+
+    function gameOver()
+    {
+        ctx.save();
+        ctx.fillText("GAME OVER", 5, 15);
+        ctx.fillText("Appuyez sur la touche Espace pour rejouer",5,30);
+        ctx.restore();
     }
     function drawBlock(ctx, position)
     {
@@ -53,6 +68,7 @@ window.onload = function(){
     {
       this.body = body;
       this.direction = direction;
+      this.ateApple = false;
       this.draw = function()
       {
         ctx.save();
@@ -84,8 +100,11 @@ window.onload = function(){
                 throw("Direction invalide");
         }
         this.body.unshift(nextPosition); //rajoute la dernier position donc 7,4
-        this.body.pop(); //supprime le dernier element de l'array soit 4,4
-      };
+        if(!this.ateApple)
+            this.body.pop(); //supprime le dernier element de l'array soit 4,4
+        else
+            this.ateApple=false;
+    };
 
       this.setDirection = function(newDirection)
       {
@@ -174,6 +193,20 @@ window.onload = function(){
             var newX = Math.round(Math.random() * (widthInBlock - 1));
             var newY = Math.round(Math.random() * (heightInBlocks - 1)); 
             this.position = [newX , newY];
+        };
+        this.isOnSnake = function(snakeToCheck) //la pomme ne doit pas réaparaitre sur le serpent
+        {
+            var isOnSnake = false;
+
+            for(var i = 0; i < snakeToCheck.body.length; i++)
+            {
+                if(this.position[0] === snakeToCheck.body[i][0] && this.position[1] === snakeToCheck.body[i][1] )
+                {
+                    isOnSnake=true;
+                }
+            }
+            return isOnSnake;
+
         };
     }
     document.onkeydown = function handleKeyDown(e)
