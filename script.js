@@ -13,8 +13,7 @@ window.onload = function(){
 
     init();
 
-    function init()
-    {
+    function init(){
       var canvas = document.createElement('canvas');
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
@@ -29,21 +28,16 @@ window.onload = function(){
       score = 0;
       refreshCanvas();
     }
-    function refreshCanvas()
-    {
+    function refreshCanvas(){
       snakee.advance();
-      if(snakee.checkCollision())
-      {
+      if(snakee.checkCollision()){
           gameOver();//gameover
-      }
-      else
-      {
+      } else {
         if(snakee.isEatingApple(applee)) 
         {
             score++;
             snakee.ateApple = true;
-            do
-            {
+            do{
                 applee.setNewPosition();//a mangé la pomme
             }
             while(applee.isOnSnake(snakee))
@@ -59,8 +53,7 @@ window.onload = function(){
      
     }
 
-    function gameOver()
-    {
+    function gameOver(){
         ctx.save();
         ctx.font = "bold 70px sans-serif";
         ctx.fillStyle = "black";
@@ -79,8 +72,7 @@ window.onload = function(){
         ctx.restore();
     }
 
-    function restart()
-    {
+    function restart(){
       snakee = new Snake([[6,4],[5,4],[4,4], [3,4], [2,4]], "right");
       applee = new Apple([10,10]);
       score = 0;
@@ -88,8 +80,7 @@ window.onload = function(){
       refreshCanvas();
     }
 
-    function afficherScore()
-    {
+    function afficherScore(){
         ctx.save();
         ctx.font = "bold 200px sans-serif";
         ctx.fillStyle = "gray";
@@ -100,14 +91,12 @@ window.onload = function(){
         ctx.fillText(score.toString(),centreX,centreY);
         ctx.restore();
     }
-    function drawBlock(ctx, position)
-    {
+    function drawBlock(ctx, position){
       var x = position[0] * blockSize;
       var y = position[1] * blockSize;
       ctx.fillRect(x, y, blockSize, blockSize);
     }
-    function Snake(body,direction)
-    {
+    function Snake(body,direction){
       this.body = body;
       this.direction = direction;
       this.ateApple = false;
@@ -115,8 +104,7 @@ window.onload = function(){
       {
         ctx.save();
         ctx.fillStyle = "#ff0000";
-        for(var i=0; i < this.body.length; i++)
-        {
+        for(var i=0; i < this.body.length; i++){
           drawBlock(ctx, this.body[i]);
         }
         ctx.restore();
@@ -148,8 +136,7 @@ window.onload = function(){
             this.ateApple=false;
     };
 
-      this.setDirection = function(newDirection)
-      {
+      this.setDirection = function(newDirection){
         var allowedDirections; //direction permise
         switch(this.direction)
         {
@@ -170,8 +157,7 @@ window.onload = function(){
 
         }
       };
-      this.checkCollision = function()
-      {
+      this.checkCollision = function(){
         var wallCollision = false;
         var snakeCollision = false; 
         var head = this.body[0]; //c la tete du serpent qui entre en collision
@@ -185,14 +171,11 @@ window.onload = function(){
         var isNotBetweenHorizontalWalls = snakeX < minX || snakeX > maxX;
         var isNotBetweenVerticalWalls = snakeY < minY || snakeY > maxY; //pas entre les murs verticaux
         
-        if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls)
-        {
+        if(isNotBetweenHorizontalWalls || isNotBetweenVerticalWalls){
             wallCollision = true;
         }
-        for(var i = 0; i < reste.length; i++)
-        {
-            if(snakeX == reste[i][0] && snakeY == reste[i][1])
-            {
+        for(var i = 0; i < reste.length; i++){
+            if(snakeX == reste[i][0] && snakeY == reste[i][1]){
                 snakeCollision = true;
             }
         }
@@ -215,8 +198,7 @@ window.onload = function(){
     }
 
     //création de la pomme
-    function Apple(position)
-    {
+    function Apple(position){
         this.position = position;
         this.draw = function()
         {
@@ -251,12 +233,10 @@ window.onload = function(){
 
         };
     }
-    document.onkeydown = function handleKeyDown(e)
-    {
+    document.onkeydown = function handleKeyDown(e){
         var key = e.keyCode;
         var newDirection; 
-        switch(key)
-        {
+        switch(key){
           case 37:
               newDirection = 'left';
               break;
